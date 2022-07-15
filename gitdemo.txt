@@ -1,0 +1,122 @@
+通过git init 把本地目录变成 git 可以管理的仓库
+编写一个文件 
+ 然后 可以查看仓库 状态 
+ git status
+ 
+ 通过 git add * 来把工作区的文件 提交到暂存区
+ 然后在查看状态 就是 new file 
+ 这时候可以提交 git commit -m '提交文件'
+  提交之后 提交到了 仓库 在查询一下状态
+  就是要提交修改的 工作目录干净的
+   手动 把demo 修改了一下 查询状态
+   
+   git 一下 提示有修改的文件
+   然后在提交一下  然后就提交到 暂存区 
+   
+    git diff 查询修改的内容
+	
+	 版本回退
+	  git reset --hard 15da92
+	  git reset --hard commitId
+	   回退到之前 demo 未被修改的状态
+	   
+	   时光穿梭 回到 修改之后的状态
+	   需要找到commitId 然后回退到指定的版本
+	   git reset --hard 56b8158
+	 
+	 如果说 找不到了commitId
+	  可以通过git reflog 来找到每一次提交的commitId 
+	  
+	  56b8158 (HEAD -> master) HEAD@{0}: reset: moving to 56b8158
+		15da927 HEAD@{1}: reset: moving to 15da92
+		56b8158 (HEAD -> master) HEAD@{2}: commit: 修改了demo
+		15da927 HEAD@{3}: commit: 提交文件
+		c396e1b HEAD@{4}: reset: moving to HEAD^
+		c41fed4 HEAD@{5}: commit: 123
+		c396e1b HEAD@{6}: commit: add
+		bcf1494 HEAD@{7}: commit (initial): demo com
+		
+		这个上面HEAD  指向的版本就是当前版本
+		
+		下面就是工作区暂存区的 理解
+		新增了一个文本 LICENSE
+		然后查询git 状态
+On branch master
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+        LICENSE.txt
+
+nothing added to commit but untracked files present (use "git add" to track)
+ 这里提示有新的文件  Untracked 没有被添加过
+  可以使用add 来添加到暂存区 
+   git add LICENSE.txt
+	然后查询状态 就提示 暂存区绿色的 有新的 file 文件
+	可以 回滚
+	修改了 文本内容 Changes   标题
+	现在是 只add了空文本 然后修改了一下  没有add修改后的内容 
+	然后提交一下试试
+	提交之后还是提示被修改  需要重新add
+	
+	git restore LICENSE.txt
+	用这个命令 进行了 回退到之前 空文本 第一次add的状态
+	
+	
+	工作区修改了 进行撤回
+	git checkout -- LICENSE.txt
+
+	git add *
+
+	这次的修改 添加到了暂存区 然后在撤回
+	git checkout -- LICENSE.txt
+	 回退到 最近的一次add 或者commit
+	 
+	 git reset 回退工作区
+	 
+	 文件删除
+	 
+	 在工作区创建一个文本 然后 提交到仓库
+	 直接在工作区删除文件 然后查询一下 git 状态
+	 
+	 可以 直接用git rm 删除 仓库 然后 在git commit 一下
+	 文件就从仓库删除了
+	 也可以选择用 git checkout -- text.txt
+	 然后工作区就恢复了这个文件
+	 
+	 远程仓库
+	 SSH 克隆方式
+	 需要生成rsa 公钥key 然后 在GitHub上面绑定一下
+	 git clone git@github.com:lanshao123/wh_code.git
+	 HTTPS克隆方式 这个方式需要输入账号密码
+	 git clone https://github.com/lanshao123/wh_code.git
+	 
+	 在这里 我们的main就是主分支 相当于master
+	 创建一个 dev分支 并且切换到dev分支
+	 git checkout命令加上-b参数表示创建并切换
+	  git checkout -b dev 
+	  查看当前分支 
+	  git branch
+	  ------
+	  * dev
+		main
+		星号标识的 就是当前分支
+		在dev分支进行了修改提交
+		
+		然后切换到 主分支
+		 git checkout main
+		 切换到 main主分支 后 查看文本 发现 是没有被修改的
+		 现在我们把dev合并到main
+		 git merge dev
+		  
+		  合并完成之后 我们 git push 到远程仓库
+		   git push
+		这是在github上面进行的修改
+
+		在dev分支进行了修改
+		
+		--删除分支
+		 删除dev分支
+		 git branch -d dev
+
+
+
+	 
